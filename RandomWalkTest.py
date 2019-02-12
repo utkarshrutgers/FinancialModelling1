@@ -13,7 +13,7 @@ Print out just the p-value of the test (results[0] is the test statistic, and re
 from statsmodels.tsa.stattools import adfuller
 
 # Run the ADF test on the price series and print out the results
-results = adfuller(AMZN['Adj Close'])
+results = adfuller(MSFT['Adj Close'])
 print(results)
 
 # Just print out the p-value
