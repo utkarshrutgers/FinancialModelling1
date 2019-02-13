@@ -18,3 +18,20 @@ print(results)
 
 # Just print out the p-value
 print('The p-value of the test on prices is: ' + str(results[1]))
+
+
+import random
+
+count = 0
+countsum = 0
+
+for j in range (1,1000):
+    for i in range ( 0,50):
+        toss = random.randint(1,100)
+        
+        if toss > 50:
+            count+=1
+        else:
+            count-=1
+countsum = countsum+count
+print(countsum/100)
