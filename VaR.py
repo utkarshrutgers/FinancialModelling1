@@ -47,3 +47,30 @@ def expected_shortfall(returns, confidence_level=.05):
 	
 	# ES is the average of the worst losses (under var)
 	return returns[returns.lt(var, axis=1)].mean()
+
+
+# Importing libraries
+from pandas_datareader import data as pdr
+
+# Defining general variables
+ticker = 'SPY'
+first_date = '2010-01-01'
+last_date = '2018-08-31'
+conficence_level = 0.05 
+k = 0.02
+
+# Getting data from yahoo
+ticker_close = pdr.get_data_yahoo(ticker, first_date, last_date)[['Close']]
+
+# Getting daily percentage returns from ticker close prices
+ticker_returns = ticker_close.copy().pct_change().dropna(axis=0).rename(columns={'Close': 'dr1'})
+
+# Modifying returns with a constant value
+ticker_returns['dr2'] = ticker_returns['dr1'].copy()
+ticker_returns.loc[ticker_returns['dr1'] < ticker_returns['dr1'].quantile(conficence_level), 'dr2'] -= k
+
+# Getting VaR using value_at_risk function
+var = value_at_risk(ticker_returns)
+
+# Getting ES using expected_shortfall function
+es = expected_shortfall(ticker_returns)
